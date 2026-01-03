@@ -1,0 +1,39 @@
+# HDHomeRun setup - for network TV tuners
+# This extends the base docker-compose.yml
+
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+    volumes:
+      - ./config/plex:/config
+      - ./media/tv:/data/tv
+      - ./media/movies:/data/movies
+      - ./media/music:/data/music
+      - ./media/photos:/data/photos
+      - ./transcode:/transcode
+    restart: unless-stopped
+
+  xteve:
+    image: dnsforge/xteve:latest
+    container_name: xteve
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - ./config/xteve:/config
+      - ./config/xteve/tmp:/tmp/xteve
+    restart: unless-stopped
+
+  # Note: Plex connects directly to HDHomeRun on your network
+  # No additional containers needed for basic HDHomeRun support!
+  # 
+  # If you want to use HDHomeRun's own DVR software:
+  # 1. Download from https://www.silicondust.com/dvr/
+  # 2. Or use Plex Pass for DVR features (recommended)

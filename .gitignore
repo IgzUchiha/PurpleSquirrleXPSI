@@ -1,0 +1,23 @@
+# Environment variables
+.env
+
+# Configuration directories (contain sensitive data)
+config/
+
+# Media files (too large for git)
+media/
+recordings/
+transcode/
+
+# Backups
+backups/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml

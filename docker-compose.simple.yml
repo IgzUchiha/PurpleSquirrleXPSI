@@ -1,0 +1,23 @@
+version: '3.8'
+
+# Simplified version - Just Plex with built-in Live TV
+# Use this if you don't need external IPTV sources
+
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+    volumes:
+      - ./config/plex:/config
+      - ./media/tv:/data/tv
+      - ./media/movies:/data/movies
+      - ./media/music:/data/music
+      - ./media/photos:/data/photos
+      - ./transcode:/transcode
+    restart: unless-stopped

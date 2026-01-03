@@ -1,0 +1,47 @@
+# Full setup with TVHeadend (requires TV tuner hardware)
+# Use this if you have a TV tuner device
+
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+    volumes:
+      - ./config/plex:/config
+      - ./media/tv:/data/tv
+      - ./media/movies:/data/movies
+      - ./media/music:/data/music
+      - ./media/photos:/data/photos
+      - ./transcode:/transcode
+    restart: unless-stopped
+
+  xteve:
+    image: dnsforge/xteve:latest
+    container_name: xteve
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - ./config/xteve:/config
+      - ./config/xteve/tmp:/tmp/xteve
+    restart: unless-stopped
+
+  tvheadend:
+    image: lscr.io/linuxserver/tvheadend:latest
+    container_name: tvheadend
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+    volumes:
+      - ./config/tvheadend:/config
+      - ./recordings:/recordings
+    devices:
+      - /dev/dvb:/dev/dvb  # For TV tuner hardware
+    restart: unless-stopped

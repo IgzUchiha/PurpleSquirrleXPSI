@@ -1,0 +1,43 @@
+{
+  "Device": {
+    "FriendlyName": "Virtual HDHomeRun",
+    "Manufacturer": "Silicondust",
+    "ModelNumber": "HDTC-2US",
+    "FirmwareName": "hdhomerun_atsc",
+    "TunerCount": 6,
+    "FirmwareVersion": "20150826",
+    "DeviceID": "12345678",
+    "DeviceAuth": "virtual"
+  },
+  "IPTV": {
+    "Streams": 6
+  },
+  "Log": {
+    "Level": "info"
+  },
+  "Discovery": {
+    "DeviceID": 12345678
+  },
+  "Web": {
+    "BaseAddress": "0.0.0.0:6077",
+    "ListenAddress": "0.0.0.0:6077"
+  },
+  "Source": {
+    "Provider": "Custom",
+    "Filter": "",
+    "FilterKey": "",
+    "FilterRaw": false,
+    "Sort": ""
+  },
+  "SchedulesDirect": {
+    "Username": "",
+    "Password": ""
+  },
+  "XMLTV": {
+    "URL": "",
+    "Refresh": 14400
+  },
+  "FFMpeg": {
+    "Path": "/usr/bin/ffmpeg"
+  }
+}

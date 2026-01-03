@@ -1,0 +1,45 @@
+# HDHomeRun Emulator - Virtual HDHomeRun device
+# Use this if you don't have physical HDHomeRun hardware
+# This creates a virtual HDHomeRun that can stream IPTV sources
+
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+      - PLEX_CLAIM=${PLEX_CLAIM_TOKEN}
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+    volumes:
+      - ./config/plex:/config
+      - ./media/tv:/data/tv
+      - ./media/movies:/data/movies
+      - ./media/music:/data/music
+      - ./media/photos:/data/photos
+      - ./transcode:/transcode
+    restart: unless-stopped
+
+  xteve:
+    image: dnsforge/xteve:latest
+    container_name: xteve
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+    volumes:
+      - ./config/xteve:/config
+      - ./config/xteve/tmp:/tmp/xteve
+    restart: unless-stopped
+
+  # Note: xTeve has built-in HDHomeRun emulation!
+  # No additional container needed - xTeve can act as an HDHomeRun device
+  # 
+  # To enable in xTeve:
+  # 1. Open http://localhost:34400
+  # 2. Go to Settings
+  # 3. Enable "HDHomeRun" mode
+  # 4. Plex will detect xTeve as an HDHomeRun device
+  #
+  # Alternative: Use Plex's direct DVR integration with xTeve
+  # (Settings > Live TV & DVR > Add DVR Device > Select xTeve)
